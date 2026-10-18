@@ -1,3 +1,23 @@
+//! # table-rs
+//!
+//! Gerador soberano em Rust de tabelas acadêmicas ABNT NBR 14724 / IBGE / APA de 3 linhas em Typst
+//! com suporte a consultas SSOT dinâmicas.
+//!
+//! > ⚠️ **Aviso de Versão em Desenvolvimento Ativo (pre-1.0 / dev)**: Esta biblioteca
+//! > está em fase inicial de desenvolvimento ativo (`0.1.x`). A API pública pode
+//! > sofrer ajustes antes da versão estável 1.0.0.
+//!
+//! ## Exemplo Rápido
+//!
+//! ```rust
+//! use table_rs::render_table_block;
+//!
+//! let block = "%% caption = Censo\nid,nome\n1,Ana\n";
+//! let typst = render_table_block(block).unwrap();
+//! assert!(typst.contains("#figure("));
+//! assert!(typst.contains("table.hline"));
+//! ```
+
 use regex::Regex;
 use ssot_rs::Dataset;
 use std::collections::HashMap;
