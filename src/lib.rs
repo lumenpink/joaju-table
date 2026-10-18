@@ -222,3 +222,5 @@ pub fn preprocess_tables(markdown: &str) -> String {
     })
     .to_string()
 }
+
+pub use render_table_block as render_single_table;
