@@ -1,5 +1,5 @@
+use joaju_table::render_table_block;
 use std::fs;
-use table_rs::render_table_block;
 
 #[test]
 fn test_render_basic_inline_markdown_table() {
@@ -79,7 +79,7 @@ Texto intermediário.
 | 9 | 8 |
 ```
 "#;
-    let processed = table_rs::preprocess_tables(md);
+    let processed = joaju_table::preprocess_tables(md);
     assert!(processed.contains("caption: [Primeira Tabela]"));
     assert!(processed.contains("caption: [Segunda Tabela]"));
     assert!(processed.contains("Texto intermediário."));

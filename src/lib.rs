@@ -1,4 +1,4 @@
-//! # table-rs
+//! # joaju-table
 //!
 //! Gerador soberano em Rust de tabelas acadêmicas ABNT NBR 14724 / IBGE / APA de 3 linhas em Typst
 //! com suporte a consultas SSOT dinâmicas.
@@ -10,7 +10,7 @@
 //! ## Exemplo Rápido
 //!
 //! ```rust
-//! use table_rs::render_table_block;
+//! use joaju_table::render_table_block;
 //!
 //! let block = "%% caption = Censo\nid,nome\n1,Ana\n";
 //! let typst = render_table_block(block).unwrap();
@@ -18,15 +18,15 @@
 //! assert!(typst.contains("table.hline"));
 //! ```
 
+use joaju_csv::Dataset;
 use regex::Regex;
-use ssot_rs::Dataset;
 use std::collections::HashMap;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
 pub enum TableError {
-    #[error("Erro SSOT: {0}")]
-    Ssot(#[from] ssot_rs::SsotError),
+    #[error("Erro de CSV: {0}")]
+    Csv(#[from] joaju_csv::CsvError),
 
     #[error("Tabela vazia ou sem dados")]
     EmptyTable,
@@ -175,7 +175,7 @@ pub fn render_dataset_to_typst(
 }
 
 pub fn render_table_block(raw_content: &str) -> Result<String, TableError> {
-    let (directives, body) = ssot_rs::split_block_content(raw_content);
+    let (directives, body) = joaju_csv::split_block_content(raw_content);
     let config = TableConfig::from_directives(&directives);
 
     let select_expr = directives.get("select").map(|s| s.as_str());

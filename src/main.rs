@@ -1,9 +1,9 @@
 use clap::Parser;
+use joaju_table::{preprocess_tables, render_table_block};
 use std::path::PathBuf;
-use table_rs::{preprocess_tables, render_table_block};
 
 #[derive(Parser, Debug)]
-#[command(name = "table-rs")]
+#[command(name = "joaju-table")]
 #[command(
     about = "Gerador soberano em Rust de tabelas acadêmicas ABNT/IBGE/APA de 3 linhas em Typst"
 )]

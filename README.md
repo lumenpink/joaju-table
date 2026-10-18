@@ -1,7 +1,7 @@
-# table-rs
+# joaju-table
 
-[![crates.io](https://img.shields.io/crates/v/table-rs.svg)](https://crates.io/crates/table-rs)
-[![docs.rs](https://docs.rs/table-rs/badge.svg)](https://docs.rs/table-rs)
+[![crates.io](https://img.shields.io/crates/v/joaju-table.svg)](https://crates.io/crates/joaju-table)
+[![docs.rs](https://docs.rs/joaju-table/badge.svg)](https://docs.rs/joaju-table)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![GOST](https://img.shields.io/badge/GOST-1.1.0-emerald.svg)](https://codeberg.org/lumenpink/gost)
 
@@ -20,23 +20,23 @@ Nas normas acadêmicas brasileiras (ABNT e IBGE) e internacionais (APA), **tabel
 3. Linha inferior de fechamento dos dados (`1.2pt`)
 4. Legenda / Título no topo e fonte / notas padronizadas no rodapé com alinhamento à esquerda.
 
-`table-rs` aceita dados inline (Markdown ou CSV) ou fontes externas através de integração com o motor `ssot-rs`, permitindo filtrar (`%%where`) e projetar (`%%select`) os dados da tabela em tempo de compilação.
+`joaju-table` aceita dados inline (Markdown ou CSV) ou fontes externas através de integração com o motor `joaju-csv`, permitindo filtrar (`%%where`) e projetar (`%%select`) os dados da tabela em tempo de compilação.
 
 ---
 
 ## 🚀 Instalação
 
-Adicione `table-rs` ao seu `Cargo.toml`:
+Adicione `joaju-table` ao seu `Cargo.toml`:
 
 ```toml
 [dependencies]
-table-rs = "0.1.0"
+joaju-table = "0.1.0"
 ```
 
 Ou instale a CLI:
 
 ```bash
-cargo install table-rs
+cargo install joaju-table
 ```
 
 ---
@@ -46,7 +46,7 @@ cargo install table-rs
 ### 1. Renderizando um bloco com diretivas
 
 ```rust
-use table_rs::render_table_block;
+use joaju_table::render_table_block;
 
 let block = r#"
 %% caption = Distribuição Salarial por Departamento
@@ -68,7 +68,7 @@ assert!(typst_code.contains("Fonte: Departamento de Recursos Humanos"));
 ### 2. Pré-processamento de Documentos Markdown com blocos ````table`
 
 ```rust
-use table_rs::preprocess_tables;
+use joaju_table::preprocess_tables;
 
 let doc = r#"
 # Relatório Anual
@@ -94,10 +94,10 @@ assert!(processed.contains("#figure("));
 
 ```bash
 # Converter arquivo com bloco table para Typst
-table-rs render tabela.csv --caption "Dados Coletados" --source "IBGE"
+joaju-table render tabela.csv --caption "Dados Coletados" --source "IBGE"
 
 # Pré-processar arquivo markdown completo
-table-rs preprocess documento.md -o documento_typst.md
+joaju-table preprocess documento.md -o documento_typst.md
 ```
 
 ---
