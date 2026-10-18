@@ -5,35 +5,35 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![GOST](https://img.shields.io/badge/GOST-1.1.0-emerald.svg)](https://codeberg.org/lumenpink/gost)
 
-Gerador soberano em Rust de tabelas acadêmicas no padrão de 3 linhas (ABNT NBR 14724 / Normas de Apresentação Tabular do IBGE / APA) renderizadas nativamente em **Typst**, com suporte a consultas SSOT dinâmicas.
+A fast, deterministic Rust library for rendering 3-line academic tables (ABNT NBR 14724 / IBGE / APA) natively in **Typst**, featuring dynamic tabular queries powered by `joaju-csv`.
 
 > ⚠️ **Early Development Notice (pre-1.0 / alpha)**  
 > This library is currently in early active development (`0.1.0`). It is NOT recommended for production use beyond experimental testing and research. APIs are subject to breaking changes prior to a stable 1.0.0 release.
 
 ---
 
-## 📖 Visão Geral
+## 📖 Overview
 
-Nas normas acadêmicas brasileiras (ABNT e IBGE) e internacionais (APA), **tabelas não possuem bordas verticais**. Elas são caracterizadas pela clássica estrutura de "3 linhas horizontais":
-1. Linha superior espessa (`1.2pt`)
-2. Linha separadora do cabeçalho (`0.6pt`)
-3. Linha inferior de fechamento dos dados (`1.2pt`)
-4. Legenda / Título no topo e fonte / notas padronizadas no rodapé com alinhamento à esquerda.
+In academic guidelines (such as ABNT, IBGE, and APA), **tables do not use vertical borders**. Instead, they feature the classic "three horizontal lines" structure:
+1. Top horizontal rule (`1.2pt`)
+2. Header separator rule (`0.6pt`)
+3. Bottom closing rule (`1.2pt`)
+4. Title / Caption on top and standardized source / notes at the bottom with left alignment.
 
-`joaju-table` aceita dados inline (Markdown ou CSV) ou fontes externas através de integração com o motor `joaju-csv`, permitindo filtrar (`%%where`) e projetar (`%%select`) os dados da tabela em tempo de compilação.
+`joaju-table` accepts inline table data (Markdown or CSV) as well as external tabular data sources through integration with `joaju-csv`, allowing compile-time row filtering (`%%where`) and column projections (`%%select`).
 
 ---
 
-## 🚀 Instalação
+## 🚀 Installation
 
-Adicione `joaju-table` ao seu `Cargo.toml`:
+Add `joaju-table` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
 joaju-table = "0.1.0"
 ```
 
-Ou instale a CLI:
+Or install the CLI tool:
 
 ```bash
 cargo install joaju-table
@@ -41,46 +41,46 @@ cargo install joaju-table
 
 ---
 
-## 🛠️ Exemplo de Uso (Rust API)
+## 🛠️ Usage Example (Rust API)
 
-### 1. Renderizando um bloco com diretivas
+### 1. Rendering a Block with Directives
 
 ```rust
 use joaju_table::render_table_block;
 
 let block = r#"
-%% caption = Distribuição Salarial por Departamento
-%% source = Departamento de Recursos Humanos (2026)
-%% note = Valores expressos em salários mínimos.
-departamento,funcionarios,media_salarial
-Engenharia,42,8.5
+%% caption = Salary Distribution by Department
+%% source = Department of Human Resources (2026)
+%% note = Values expressed in minimum wage units.
+department,employees,average_salary
+Engineering,42,8.5
 Design,15,6.2
-Atendimento,28,4.1
+Support,28,4.1
 "#;
 
 let typst_code = render_table_block(block).unwrap();
 println!("{}", typst_code);
 assert!(typst_code.contains("#figure("));
 assert!(typst_code.contains("table.hline(stroke: 1.2pt)"));
-assert!(typst_code.contains("Fonte: Departamento de Recursos Humanos"));
+assert!(typst_code.contains("Fonte: Department of Human Resources"));
 ```
 
-### 2. Pré-processamento de Documentos Markdown com blocos ````table`
+### 2. Preprocessing Markdown Documents Containing ````table` Blocks
 
 ```rust
 use joaju_table::preprocess_tables;
 
 let doc = r#"
-# Relatório Anual
+# Annual Report
 
-Abaixo apresentamos os resultados apurados:
+The preliminary results are summarized below:
 
 ```table
-%% caption = Amostra de Teste
-%% source = Laboratório Central
-parametro,valor
+%% caption = Test Sample
+%% source = Central Laboratory
+parameter,value
 pH,7.2
-Temperatura,24.5
+Temperature,24.5
 ```
 "#;
 
@@ -90,32 +90,32 @@ assert!(processed.contains("#figure("));
 
 ---
 
-## 💻 Uso via CLI
+## 💻 CLI Usage
 
 ```bash
-# Converter arquivo com bloco table para Typst
-joaju-table render tabela.csv --caption "Dados Coletados" --source "IBGE"
+# Render a table block file to Typst
+joaju-table --input table.csv
 
-# Pré-processar arquivo markdown completo
-joaju-table preprocess documento.md -o documento_typst.md
+# Preprocess a full Markdown document
+joaju-table --input document.md --markdown
 ```
 
 ---
 
-## 📋 Conformidade GOST
+## 📋 GOST Compliance
 
-Este projeto adota a norma **[GOST](https://codeberg.org/lumenpink/gost)** (Gosplan Standard for Technical Software).
-- **Versão GOST:** `1.1.0`
-- **Linguagens declaradas:** `rust,shell`
-- **Licença:** `Apache-2.0`
+This project adheres to the **[GOST](https://codeberg.org/lumenpink/gost)** specification (Gosplan Standard for Technical Software).
+- **GOST Version:** `1.1.0`
+- **Declared Languages:** `rust,shell`
+- **License:** `Apache-2.0`
 
 ```bash
-# Executar auditoria de qualidade estrita
+# Run strict compliance verification
 cccp check --strict
 ```
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-Distribuído sob a licença [Apache-2.0](./LICENSE).
+Distributed under the [Apache-2.0](./LICENSE) license.

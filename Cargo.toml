@@ -2,7 +2,7 @@
 name = "joaju-table"
 version = "0.1.0"
 edition = "2021"
-description = "Gerador soberano em Rust de tabelas acadêmicas ABNT/IBGE/APA de 3 linhas em Typst"
+description = "A fast and deterministic Rust library for rendering 3-line academic tables (ABNT/IBGE/APA) natively in Typst"
 license = "Apache-2.0"
 repository = "https://codeberg.org/lumenpink/joaju-table"
 homepage = "https://codeberg.org/lumenpink/joaju-table"

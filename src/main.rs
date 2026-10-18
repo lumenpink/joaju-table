@@ -5,14 +5,14 @@ use std::path::PathBuf;
 #[derive(Parser, Debug)]
 #[command(name = "joaju-table")]
 #[command(
-    about = "Gerador soberano em Rust de tabelas acadêmicas ABNT/IBGE/APA de 3 linhas em Typst"
+    about = "A fast and deterministic Rust CLI for rendering 3-line academic tables (ABNT/IBGE/APA) natively in Typst"
 )]
 struct Cli {
-    /// Arquivo de entrada (Markdown ou bloco de tabela)
+    /// Input file path (Markdown document or raw table block)
     #[arg(short, long)]
     input: Option<PathBuf>,
 
-    /// Processar documento Markdown completo substituindo blocos ```table
+    /// Process entire Markdown document, replacing ```table blocks
     #[arg(short, long)]
     markdown: bool,
 }

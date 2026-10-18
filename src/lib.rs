@@ -1,18 +1,18 @@
 //! # joaju-table
 //!
-//! Gerador soberano em Rust de tabelas acadêmicas ABNT NBR 14724 / IBGE / APA de 3 linhas em Typst
-//! com suporte a consultas SSOT dinâmicas.
+//! A fast and deterministic Rust library for rendering 3-line academic tables
+//! (ABNT NBR 14724 / IBGE / APA) natively in Typst with tabular data queries.
 //!
 //! > ⚠️ **Early Development Notice (pre-1.0 / alpha)**: This library is currently in early
 //! > active development (`0.1.0`). It is NOT recommended for production use beyond experimental
 //! > testing and research. APIs are subject to breaking changes prior to a stable 1.0.0 release.
 //!
-//! ## Exemplo Rápido
+//! ## Quick Example
 //!
 //! ```rust
 //! use joaju_table::render_table_block;
 //!
-//! let block = "%% caption = Censo\nid,nome\n1,Ana\n";
+//! let block = "%% caption = Census\nid,name\n1,Ana\n";
 //! let typst = render_table_block(block).unwrap();
 //! assert!(typst.contains("#figure("));
 //! assert!(typst.contains("table.hline"));
@@ -25,13 +25,13 @@ use thiserror::Error;
 
 #[derive(Error, Debug)]
 pub enum TableError {
-    #[error("Erro de CSV: {0}")]
+    #[error("CSV error: {0}")]
     Csv(#[from] joaju_csv::CsvError),
 
-    #[error("Tabela vazia ou sem dados")]
+    #[error("Empty table or no data")]
     EmptyTable,
 
-    #[error("Erro de formato: {0}")]
+    #[error("Format error: {0}")]
     FormatError(String),
 }
 
