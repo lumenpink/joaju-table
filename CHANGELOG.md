@@ -8,4 +8,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Migração da dependência joaju-csv para o registro soberano lumen e publicação da crate v0.1.0 (closes #7).
 - Inicialização do repositório em conformidade com o padrão GOST.
