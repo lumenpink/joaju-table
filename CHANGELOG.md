@@ -8,5 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Esteira GitOps unificada, publicação no registry lumen e cascata downstream para joaju (closes #8).
 - Migração da dependência joaju-csv para o registro soberano lumen e publicação da crate v0.1.0 (closes #7).
 - Inicialização do repositório em conformidade com o padrão GOST.
