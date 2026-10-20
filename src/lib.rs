@@ -81,6 +81,27 @@ impl TableConfig {
     }
 }
 
+fn normalize_typst_align(raw: &str) -> String {
+    let parts: Vec<&str> = raw.split(',').map(|s| s.trim()).collect();
+    let mapped: Vec<String> = parts
+        .into_iter()
+        .map(|p| match p.to_lowercase().as_str() {
+            "c" | "center" => "center".to_string(),
+            "l" | "left" => "left".to_string(),
+            "r" | "right" => "right".to_string(),
+            other => other.to_string(),
+        })
+        .collect();
+
+    if mapped.len() > 1 {
+        format!("      align: ({}),\n", mapped.join(", "))
+    } else if let Some(first) = mapped.first() {
+        format!("      align: {},\n", first)
+    } else {
+        String::new()
+    }
+}
+
 pub fn render_dataset_to_typst(
     dataset: &Dataset,
     config: &TableConfig,
@@ -117,11 +138,7 @@ pub fn render_dataset_to_typst(
 
     // Configuração de alinhamento
     let align_str = if let Some(ref a) = config.align {
-        if a.contains(',') {
-            format!("      align: ({}),\n", a)
-        } else {
-            format!("      align: {},\n", a)
-        }
+        normalize_typst_align(a)
     } else {
         String::new()
     };
@@ -174,7 +191,95 @@ pub fn render_dataset_to_typst(
     Ok(out)
 }
 
-pub fn render_table_block(raw_content: &str) -> Result<String, TableError> {
+fn html_escape(s: &str) -> String {
+    s.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+        .replace('"', "&quot;")
+}
+
+pub fn render_dataset_to_html(
+    dataset: &Dataset,
+    config: &TableConfig,
+) -> Result<String, TableError> {
+    if dataset.row_count() == 0 && dataset.column_count() == 0 {
+        return Err(TableError::EmptyTable);
+    }
+
+    let headers = dataset.headers();
+    let rows = dataset.rows();
+    let alignments: Vec<&str> = if let Some(ref a) = config.align {
+        a.split(',')
+            .map(|s| match s.trim().to_lowercase().as_str() {
+                "c" | "center" => "center",
+                "r" | "right" => "right",
+                _ => "left",
+            })
+            .collect()
+    } else {
+        Vec::new()
+    };
+
+    let width_style = config
+        .layout_width
+        .as_deref()
+        .map(|w| format!(" style=\"width: {};\"", html_escape(w)))
+        .unwrap_or_default();
+
+    let mut out = format!(
+        "<div class=\"joaju-academic-table-wrapper\"{}>\n",
+        width_style
+    );
+
+    if let Some(ref cap) = config.caption {
+        out.push_str(&format!(
+            "  <div class=\"joaju-table-title\">{}</div>\n",
+            html_escape(cap)
+        ));
+    }
+
+    out.push_str("  <table class=\"joaju-academic-table\">\n    <thead>\n      <tr>\n");
+    for (i, h) in headers.iter().enumerate() {
+        let align = alignments.get(i).copied().unwrap_or("left");
+        out.push_str(&format!(
+            "        <th style=\"text-align: {};\">{}</th>\n",
+            align,
+            html_escape(h)
+        ));
+    }
+    out.push_str("      </tr>\n    </thead>\n    <tbody>\n");
+
+    for row in rows {
+        out.push_str("      <tr>\n");
+        for (i, cell) in row.iter().enumerate() {
+            let align = alignments.get(i).copied().unwrap_or("left");
+            out.push_str(&format!(
+                "        <td style=\"text-align: {};\">{}</td>\n",
+                align,
+                html_escape(cell)
+            ));
+        }
+        out.push_str("      </tr>\n");
+    }
+    out.push_str("    </tbody>\n  </table>\n");
+
+    if let Some(ref s) = config.source {
+        out.push_str(&format!(
+            "  <div class=\"joaju-table-note\">Fonte: {}</div>\n",
+            html_escape(s)
+        ));
+    } else if let Some(ref n) = config.note {
+        out.push_str(&format!(
+            "  <div class=\"joaju-table-note\">Nota: {}</div>\n",
+            html_escape(n)
+        ));
+    }
+
+    out.push_str("</div>");
+    Ok(out)
+}
+
+pub fn parse_dataset_and_config(raw_content: &str) -> Result<(Dataset, TableConfig), TableError> {
     let (directives, body) = joaju_csv::split_block_content(raw_content);
     let config = TableConfig::from_directives(&directives);
 
@@ -228,7 +333,17 @@ pub fn render_table_block(raw_content: &str) -> Result<String, TableError> {
         ds.apply_query(select_expr, where_expr)?
     };
 
+    Ok((dataset, config))
+}
+
+pub fn render_table_block(raw_content: &str) -> Result<String, TableError> {
+    let (dataset, config) = parse_dataset_and_config(raw_content)?;
     render_dataset_to_typst(&dataset, &config)
+}
+
+pub fn render_html_table(raw_content: &str) -> Result<String, TableError> {
+    let (dataset, config) = parse_dataset_and_config(raw_content)?;
+    render_dataset_to_html(&dataset, &config)
 }
 
 pub fn preprocess_tables(markdown: &str) -> String {

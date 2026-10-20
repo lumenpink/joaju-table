@@ -62,6 +62,33 @@ fn test_render_table_with_custom_columns_and_align() {
 }
 
 #[test]
+fn test_render_table_with_shorthand_align() {
+    let input = r#"%% align=c, c, c, c, l
+| Col1 | Col2 | Col3 | Col4 | Col5 |
+| 1 | 2 | 3 | 4 | 5 |
+"#;
+    let typst = render_table_block(input).expect("falha ao renderizar tabela");
+    assert!(typst.contains("align: (center, center, center, center, left)"));
+}
+
+#[test]
+fn test_render_html_table() {
+    let input = r#"%% title=Tabela 1 – Fenótipos
+%% align=c, l
+%% note=Dados de teste
+| ID | Descricao |
+| 1 | Teste |
+"#;
+    let html = joaju_table::render_html_table(input).expect("falha ao renderizar html");
+    assert!(html.contains("<div class=\"joaju-academic-table-wrapper\""));
+    assert!(html.contains("<div class=\"joaju-table-title\">Tabela 1 – Fenótipos</div>"));
+    assert!(html.contains("<table class=\"joaju-academic-table\">"));
+    assert!(html.contains("<th style=\"text-align: center;\">ID</th>"));
+    assert!(html.contains("<th style=\"text-align: left;\">Descricao</th>"));
+    assert!(html.contains("<div class=\"joaju-table-note\">Nota: Dados de teste</div>"));
+}
+
+#[test]
 fn test_preprocess_multiple_tables_in_markdown() {
     let md = r#"# Seção de Resultados
 
