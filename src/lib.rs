@@ -23,6 +23,9 @@ use regex::Regex;
 use std::collections::HashMap;
 use thiserror::Error;
 
+/// Canonical SemVer version of the crate.
+pub const VERSION: &str = env!("CARGO_PKG_VERSION");
+
 #[derive(Error, Debug)]
 pub enum TableError {
     #[error("CSV error: {0}")]
