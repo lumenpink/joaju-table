@@ -36,10 +36,9 @@ jobs:
         run: |
           mkdir -p "$HOME/.cargo"
           printf '[registries.gambi]\nindex = "sparse+https://gambi.2lp.in/api/packages/lumen/cargo/"\n' > "$HOME/.cargo/config.toml"
-          printf '[registries.lumen]\nindex = "sparse+https://gambi.2lp.in/api/packages/lumen/cargo/"\n' >> "$HOME/.cargo/config.toml"
           TOKEN="${{ secrets.REGISTRY_TOKEN || secrets.GAMBI_2LP_IN_TOKEN || secrets.LUMEN_REGISTRY_TOKEN || secrets.FORGEJO_TOKEN }}"
           if [ -n "$TOKEN" ]; then
-            printf '[registries.gambi]\ntoken = "Bearer %s"\n[registries.lumen]\ntoken = "Bearer %s"\n' "$TOKEN" "$TOKEN" > "$HOME/.cargo/credentials.toml"
+            printf '[registries.gambi]\ntoken = "Bearer %s"\n' "$TOKEN" > "$HOME/.cargo/credentials.toml"
           fi
 
       - name: "Format Check"
@@ -77,19 +76,18 @@ jobs:
         run: |
           mkdir -p "$HOME/.cargo"
           printf '[registries.gambi]\nindex = "sparse+https://gambi.2lp.in/api/packages/lumen/cargo/"\n' > "$HOME/.cargo/config.toml"
-          printf '[registries.lumen]\nindex = "sparse+https://gambi.2lp.in/api/packages/lumen/cargo/"\n' >> "$HOME/.cargo/config.toml"
           TOKEN="${REGISTRY_TOKEN}"
           if [ -n "$TOKEN" ]; then
-            printf '[registries.gambi]\ntoken = "Bearer %s"\n[registries.lumen]\ntoken = "Bearer %s"\n' "$TOKEN" "$TOKEN" > "$HOME/.cargo/credentials.toml"
+            printf '[registries.gambi]\ntoken = "Bearer %s"\n' "$TOKEN" > "$HOME/.cargo/credentials.toml"
           fi
 
-      - name: "Publish Crate to Lumen Registry"
+      - name: "Publish Crate to Gambi Registry"
         run: |
           CANONICAL_VERSION=$(head -n 1 VERSION | tr -d ' \r\n')
           echo "-> Sincronizando Cargo.toml para a versao canonica: $CANONICAL_VERSION"
           sed -i "0,/^version = .*/s//version = \"${CANONICAL_VERSION}\"/" Cargo.toml
-          echo "-> Publicando joaju-table no registry lumen..."
-          cargo publish --registry lumen --allow-dirty || echo "::warning::Versao ja publicada ou falha tolerada no registry."
+          echo "-> Publicando joaju-table no registry gambi..."
+          cargo publish --registry gambi --allow-dirty || echo "::warning::Versao ja publicada ou falha tolerada no registry."
 
       - name: "Notify Kombinat Daemon of Release Cascade"
         run: |
@@ -97,6 +95,8 @@ jobs:
           echo "★ Notificando Kombinat da publicação de joaju-table@${VERSION}..."
           curl -s -X POST http://127.0.0.1:4040/api/cascade/dispatch \
             -H "Content-Type: application/json" \
+            -d "{\"package\": \"joaju-table\", \"version\": \"${VERSION}\"}" || curl -s -X POST http://172.17.0.1:4040/api/cascade/dispatch \
+            -H "Content-Type: application/json" \
             -d "{\"package\": \"joaju-table\", \"version\": \"${VERSION}\"}" || {
-            echo "::warning::Falha ao contatar Kombinat daemon em 127.0.0.1:4040. Continuando sem abortar CI."
+            echo "::warning::Falha ao contatar Kombinat daemon em 127.0.0.1:4040 ou 172.17.0.1:4040. Continuando sem abortar CI."
           }
