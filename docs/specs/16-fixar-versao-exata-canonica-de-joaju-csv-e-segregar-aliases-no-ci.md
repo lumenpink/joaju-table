@@ -18,4 +18,12 @@ Adicionalmente, os artefatos de publicação do canal de desenvolvimento devem s
 ## 3. Plano de Testes (DD-TDD)
 - Fase 4: Criar teste `tests/deps_exact_spec.rs` comprovando falha antes da fixação exata.
 - Fase 5: Atualizar `Cargo.toml` e `.forgejo/workflows/ci.yml`.
-- Fase 6–8: Validação com `cargo test`, `cargo clippy` e `cccp check --strict`.
+- Fase 6: Refactor e auditoria de estilo (`cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`).
+- Fase 7: Análise de mutação e verificação de robustez do teste.
+- Fase 8: Quality Gate e auditoria estrita (`cccp check --strict`).
+
+## 4. Registro de Execução e Fechamento
+- Fase 3 (Spec): Especificação técnica e normativa elaborada.
+- Fase 4 (Red Test): Criado teste `tests/deps_exact_spec.rs` comprovando ausência da regra.
+- Fase 5 (Green Implement): `Cargo.toml` fixado em `=0.2.0-dev.44` e `.forgejo/workflows/ci.yml` atualizado para segregar aliases `latest-dev`.
+- Fase 6 (Refactor): Fmt e clippy validados com zero advertências.
