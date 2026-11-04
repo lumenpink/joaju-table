@@ -42,4 +42,8 @@ fn test_ci_workflow_no_duplicate_registries() {
         !ci_yaml.contains("Sovereign"),
         "CI workflow must purge imperialist terminology"
     );
+    assert!(
+        ci_yaml.contains("Publish Canonical Crate"),
+        "Workflow job name must be Canonical"
+    );
 }
