@@ -46,4 +46,8 @@ fn test_ci_workflow_no_duplicate_registries() {
         ci_yaml.contains("Publish Canonical Crate"),
         "Workflow job name must be Canonical"
     );
+    assert!(
+        ci_yaml.contains("CANONICAL_VERSION"),
+        "Workflow must synchronize CANONICAL_VERSION"
+    );
 }
