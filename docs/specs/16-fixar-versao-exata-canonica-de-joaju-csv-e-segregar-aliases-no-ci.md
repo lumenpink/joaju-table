@@ -27,3 +27,4 @@ Adicionalmente, os artefatos de publicação do canal de desenvolvimento devem s
 - Fase 4 (Red Test): Criado teste `tests/deps_exact_spec.rs` comprovando ausência da regra.
 - Fase 5 (Green Implement): `Cargo.toml` fixado em `=0.2.0-dev.44` e `.forgejo/workflows/ci.yml` atualizado para segregar aliases `latest-dev`.
 - Fase 6 (Refactor): Fmt e clippy validados com zero advertências.
+- Fase 7 (Mutation Test): Validada a sensibilidade do teste contra mutações de operador de versão (remoção do prefixo `=`).

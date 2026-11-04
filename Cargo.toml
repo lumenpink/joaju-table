@@ -1,6 +1,6 @@
 [package]
 name = "joaju-table"
-version = "0.2.0-dev.53+20261104.92c4c99"
+version = "0.2.0-dev.54+20261104.c1329c5"
 edition = "2021"
 description = "A fast and deterministic Rust library for rendering 3-line academic tables (ABNT/IBGE/APA) natively in Typst"
 license = "Apache-2.0"
