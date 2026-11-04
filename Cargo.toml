@@ -1,6 +1,6 @@
 [package]
 name = "joaju-table"
-version = "0.2.0-dev.51+20261104.2bd48d9"
+version = "0.2.0-dev.52+20261104.a6ce4aa"
 edition = "2021"
 description = "A fast and deterministic Rust library for rendering 3-line academic tables (ABNT/IBGE/APA) natively in Typst"
 license = "Apache-2.0"
@@ -13,7 +13,7 @@ categories = ["text-processing", "rendering", "command-line-utilities"]
 authors = ["Lumen Pink <hi@lumen.pink>"]
 
 [dependencies]
-joaju-csv = { version = "0.1.0", registry = "gambi" }
+joaju-csv = { version = "=0.2.0-dev.44", registry = "gambi" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "2.0"

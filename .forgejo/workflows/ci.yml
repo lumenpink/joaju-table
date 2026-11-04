@@ -70,6 +70,19 @@ jobs:
       - name: "Checkout repository"
         uses: actions/checkout@v4
 
+      - name: "Determine Release Channel and Alias"
+        id: channel
+        run: |
+          REF="${{ github.ref }}"
+          if [[ "$REF" == refs/tags/v* ]]; then
+            echo "channel=stable" >> "$GITHUB_OUTPUT"
+            echo "alias=latest" >> "$GITHUB_OUTPUT"
+          else
+            echo "channel=nightly" >> "$GITHUB_OUTPUT"
+            echo "alias=latest-dev" >> "$GITHUB_OUTPUT"
+          fi
+          echo "★ Canal: $(cat $GITHUB_OUTPUT)"
+
       - name: "Configure Cargo Credentials"
         env:
           REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN || secrets.GAMBI_2LP_IN_TOKEN || secrets.LUMEN_REGISTRY_TOKEN || secrets.FORGEJO_TOKEN }}
