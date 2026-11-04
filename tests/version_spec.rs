@@ -22,3 +22,24 @@ fn test_ci_workflow_kombinat_notification() {
         "CI workflow must notify Kombinat cascade daemon on release"
     );
 }
+
+#[test]
+fn test_ci_workflow_no_duplicate_registries() {
+    let ci_yaml = std::fs::read_to_string(".forgejo/workflows/ci.yml").expect("ci.yml must exist");
+    assert!(
+        !ci_yaml.contains("[registries.lumen]"),
+        "CI workflow must not configure duplicate lumen registry"
+    );
+    assert!(
+        ci_yaml.contains("cargo publish --registry gambi"),
+        "CI workflow must publish to registry gambi"
+    );
+    assert!(
+        ci_yaml.contains("http://172.17.0.1:4040/api/cascade/dispatch"),
+        "CI workflow must include docker bridge fallback for Kombinat"
+    );
+    assert!(
+        !ci_yaml.contains("Sovereign"),
+        "CI workflow must purge imperialist terminology"
+    );
+}
