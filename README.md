@@ -3,7 +3,7 @@
 [![crates.io](https://img.shields.io/crates/v/joaju-table.svg)](https://crates.io/crates/joaju-table)
 [![docs.rs](https://docs.rs/joaju-table/badge.svg)](https://docs.rs/joaju-table)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![GOST](https://img.shields.io/badge/GOST-1.5.0-emerald.svg)](https://codeberg.org/lumenpink/gost)
+[![GOST: v3.0.0](https://img.shields.io/badge/GOST-v3.0.0-emerald.svg)](.gost/GOST.md)
 
 A fast, deterministic Rust library for rendering 3-line academic tables (ABNT / IBGE / APA) natively in Typst, powered by `joaju-csv`.
 
@@ -38,9 +38,8 @@ assert!(typst.contains("#figure("));
 
 ## 📋 GOST Compliance
 
-This project adheres to the **[GOST](https://codeberg.org/lumenpink/gost)** specification:
-- **GOST Version:** `1.5.0`
-- **Declared Languages:** `rust,shell`
+Adheres to the **[GOST v3.0 / Lilya 2.1](.gost/GOST.md)** specification.
+- **Languages:** `rust`
 - **License:** `Apache-2.0`
 
 ---
@@ -48,3 +47,4 @@ This project adheres to the **[GOST](https://codeberg.org/lumenpink/gost)** spec
 ## 📄 License
 
 Distributed under the [Apache-2.0](./LICENSE) license.
+Feito com amor travesti por [Lumen Pink](https://lumen.pink).

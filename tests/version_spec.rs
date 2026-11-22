@@ -18,8 +18,12 @@ fn test_ci_workflow_kombinat_notification() {
         "Codeberg dispatch must be completely removed"
     );
     assert!(
-        ci_yaml.contains("http://127.0.0.1:4040/api/cascade/dispatch"),
-        "CI workflow must notify Kombinat cascade daemon on release"
+        !ci_yaml.contains("4040"),
+        "CI workflow must not contain legacy daemon dispatch on port 4040 (handled via Forgejo webhook -> Gossnab)"
+    );
+    assert!(
+        ci_yaml.contains("cargo publish --registry gambi"),
+        "CI workflow must publish to registry gambi"
     );
 }
 
@@ -33,10 +37,6 @@ fn test_ci_workflow_no_duplicate_registries() {
     assert!(
         ci_yaml.contains("cargo publish --registry gambi"),
         "CI workflow must publish to registry gambi"
-    );
-    assert!(
-        ci_yaml.contains("http://172.17.0.1:4040/api/cascade/dispatch"),
-        "CI workflow must include docker bridge fallback for Kombinat"
     );
     assert!(
         !ci_yaml.contains("Sovereign"),
