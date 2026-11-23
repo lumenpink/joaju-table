@@ -22,5 +22,5 @@ Com o lançamento do GOST Lilya 2.2.0 e Kollontai 2.2.0, o compilador Rust de re
 - **Alternativa descartada:** Permanecer em 2.1.0 causaria descontinuidade com joaju-csv (já atualizado para 2.2.0) e potenciais falhas de auditoria normativa no CI.
 
 ## 5. Resultados e Validação
-- cccp check: Pendente execução do Quality Gate.
-- cargo test: Pendente execução do Quality Gate.
+- cccp check: 24/24 PASS (100% de conformidade com Lilya 2.2.0).
+- cargo test: 12 testes (unittests, integration tests e doc-tests) passaram com sucesso.
