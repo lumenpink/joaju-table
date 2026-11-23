@@ -148,9 +148,9 @@ checksum = "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
 
 [[package]]
 name = "joaju-csv"
-version = "0.2.0-dev.46+20261122.35fe59a"
+version = "0.2.0-dev.49+20261122.e410d21"
 source = "sparse+https://gambi.2lp.in/api/packages/lumen/cargo/"
-checksum = "8b30a99c4b9f32121ef0a60f673644cc5c5680b6ef3a3db0c247cb3a01ec1a6c"
+checksum = "ba13277b5bc6549a79229eccc146fb34f41afb5f19c48318d0066e69347ad4db"
 dependencies = [
  "clap",
  "csv",
@@ -162,7 +162,7 @@ dependencies = [
 
 [[package]]
 name = "joaju-table"
-version = "0.2.0-dev.57+20261104.bffcfe0"
+version = "0.2.0-dev.62+20261122.f86eed5"
 dependencies = [
  "clap",
  "joaju-csv",
