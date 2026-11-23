@@ -1,11 +1,10 @@
 [package]
 name = "joaju-table"
-version = "0.2.0-dev.64+20261123.c0c4986"
+version = "0.2.0-dev.65+20261123.fa996ec"
 edition = "2021"
 description = "A fast and deterministic Rust library for rendering 3-line academic tables (ABNT/IBGE/APA) natively in Typst"
 license = "Apache-2.0"
 repository = "https://codeberg.org/lumenpink/joaju-table"
-homepage = "https://codeberg.org/lumenpink/joaju-table"
 documentation = "https://docs.rs/joaju-table"
 readme = "README.md"
 keywords = ["typst", "table", "abnt", "ibge", "academic"]

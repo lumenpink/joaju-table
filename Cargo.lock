@@ -162,7 +162,7 @@ dependencies = [
 
 [[package]]
 name = "joaju-table"
-version = "0.2.0-dev.62+20261122.f86eed5"
+version = "0.2.0-dev.64+20261123.c0c4986"
 dependencies = [
  "clap",
  "joaju-csv",
