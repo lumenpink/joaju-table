@@ -25,3 +25,9 @@ A atualização de `joaju-csv` em `joaju-table` é mandatória para restabelecer
 ## 4. Árvore de Decisão e Guardiã da Natasha
 - **Por que atualizar `joaju-csv` para `49`?** Sem esta sincronização, o agregador `joaju` não consegue compilar e o cascade fica travado em deadlock. Natasha terá clareza sobre por que a versão de `joaju-csv` precisou avançar em uníssono.
 - **Alternativa descartada:** Fazer downgrade de `joaju-pedigree` para `46`. Descartado pois a versão `49` de `joaju-csv` contém melhorias ativas e avanços da toolchain Rust 1.100.0.
+
+## 5. Resultados e Validação
+- **cargo test:** 12 testes aprovados (100%).
+- **cargo clippy:** zero avisos com `--all-targets -- -D warnings`.
+- **cccp check --strict:** 24/24 PASS (100% de conformidade com Metanorma 2.2.0, Kollontai e Lilya).
+- **Status final:** Aprovado e pronto para merge na branch principal.
